@@ -1,0 +1,2 @@
+python train_uncertainty.p
+python test_uncertainty.py
