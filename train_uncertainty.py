@@ -68,9 +68,9 @@ def get_real_dataloader(path, window_size, stride, file_list, batch_size, device
 
 
 ## normal training
-# path = './datasets/SOC/0degC'
-# train_list = ['589_Mixed1.csv', '589_Mixed2.csv', '590_Mixed4.csv', '590_Mixed5.csv', '590_Mixed6.csv', '590_Mixed7.csv']
-# test_list = ['590_Mixed8.csv']
+path = './datasets/SOC/0degC'
+train_list = ['589_Mixed1.csv', '589_Mixed2.csv', '590_Mixed4.csv', '590_Mixed5.csv', '590_Mixed6.csv', '590_Mixed7.csv']
+test_list = ['590_Mixed8.csv']
 
 # path = './datasets/SOC/10degC'
 # train_list = ['567_Mixed1.csv', '567_Mixed2.csv', '571_Mixed4.csv', '571_Mixed5.csv', '571_Mixed6.csv', '571_Mixed7.csv']
@@ -128,15 +128,15 @@ with open('./result/output.txt', 'w') as f:
 
 #
 
-# train_loader, test_loader = get_dataloder(path, window_size, stride, train_list, test_list, batch_size, device)
-path = './datasets/SOC/real_data/'
-file_list = ['total.csv']
-train_loader, test_loader = get_real_dataloader(path, window_size, stride, file_list ,batch_size, device)
+train_loader, test_loader = get_dataloder(path, window_size, stride, train_list, test_list, batch_size, device)
+# path = './datasets/SOC/real_data/'
+# file_list = ['total.csv']
+# train_loader, test_loader = get_real_dataloader(path, window_size, stride, file_list ,batch_size, device)
 # print(train_loader.__len__())
 # print(test_loader.__len__())
 # Trainning&&Model Config
 test_ratio = 1
-epoches = 200
+epoches = 20
 weight_decay = 1e-4
 learning_rate = 1e-4
 loss_funcation = nn.MSELoss()

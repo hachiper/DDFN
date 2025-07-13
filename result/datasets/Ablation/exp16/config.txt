@@ -1,11 +1,23 @@
 data setting:
-    window_size=50, stride=150
+    window_size=150, stride=1
 trainning setting:
-   batch_size=128, learning_rate=0.0001, weight_decay=0.0001
+   batch_size=128, learning_rate=0.0005, weight_decay=0.0001
 model setting:
 USFFNet(
   (SFFBlock): Sequential(
     (SFFBlock0): SFFBlock(
+      (FB): FusionBlock(
+        (SA): SpatialAttention(
+          (CNN): Conv1d(2, 1, kernel_size=(3,), stride=(1,), padding=(1,))
+        )
+        (CA): ChannelAttention(
+          (MLP): Sequential(
+            (0): Linear(in_features=3, out_features=6, bias=True)
+            (1): Linear(in_features=6, out_features=3, bias=True)
+          )
+          (Sigmoid): Sigmoid()
+        )
+      )
       (SF): SpatialFlow(
         (up_conv1): Conv1d(3, 6, kernel_size=(3,), stride=(1,), padding=(1,))
         (up_conv2): Conv1d(6, 12, kernel_size=(3,), stride=(1,), padding=(1,))
@@ -31,8 +43,22 @@ USFFNet(
           (2): Conv1d(32, 3, kernel_size=(3,), stride=(1,), padding=(1,))
         )
       )
+      (ffn): Linear(in_features=6, out_features=3, bias=True)
+      (act): Sigmoid()
     )
     (SFFBlock1): SFFBlock(
+      (FB): FusionBlock(
+        (SA): SpatialAttention(
+          (CNN): Conv1d(2, 1, kernel_size=(3,), stride=(1,), padding=(1,))
+        )
+        (CA): ChannelAttention(
+          (MLP): Sequential(
+            (0): Linear(in_features=3, out_features=6, bias=True)
+            (1): Linear(in_features=6, out_features=3, bias=True)
+          )
+          (Sigmoid): Sigmoid()
+        )
+      )
       (SF): SpatialFlow(
         (up_conv1): Conv1d(3, 6, kernel_size=(5,), stride=(1,), padding=(2,))
         (up_conv2): Conv1d(6, 12, kernel_size=(5,), stride=(1,), padding=(2,))
@@ -58,8 +84,22 @@ USFFNet(
           (2): Conv1d(16, 3, kernel_size=(5,), stride=(1,), padding=(2,))
         )
       )
+      (ffn): Linear(in_features=6, out_features=3, bias=True)
+      (act): Sigmoid()
     )
     (SFFBlock2): SFFBlock(
+      (FB): FusionBlock(
+        (SA): SpatialAttention(
+          (CNN): Conv1d(2, 1, kernel_size=(7,), stride=(1,), padding=(3,))
+        )
+        (CA): ChannelAttention(
+          (MLP): Sequential(
+            (0): Linear(in_features=3, out_features=6, bias=True)
+            (1): Linear(in_features=6, out_features=3, bias=True)
+          )
+          (Sigmoid): Sigmoid()
+        )
+      )
       (SF): SpatialFlow(
         (up_conv1): Conv1d(3, 6, kernel_size=(7,), stride=(1,), padding=(3,))
         (up_conv2): Conv1d(6, 12, kernel_size=(7,), stride=(1,), padding=(3,))
@@ -85,8 +125,22 @@ USFFNet(
           (2): Conv1d(8, 3, kernel_size=(7,), stride=(1,), padding=(3,))
         )
       )
+      (ffn): Linear(in_features=6, out_features=3, bias=True)
+      (act): Sigmoid()
     )
     (SFFBlock3): SFFBlock(
+      (FB): FusionBlock(
+        (SA): SpatialAttention(
+          (CNN): Conv1d(2, 1, kernel_size=(7,), stride=(1,), padding=(3,))
+        )
+        (CA): ChannelAttention(
+          (MLP): Sequential(
+            (0): Linear(in_features=3, out_features=6, bias=True)
+            (1): Linear(in_features=6, out_features=3, bias=True)
+          )
+          (Sigmoid): Sigmoid()
+        )
+      )
       (SF): SpatialFlow(
         (up_conv1): Conv1d(3, 6, kernel_size=(7,), stride=(1,), padding=(3,))
         (up_conv2): Conv1d(6, 12, kernel_size=(7,), stride=(1,), padding=(3,))
@@ -112,8 +166,22 @@ USFFNet(
           (2): Conv1d(4, 3, kernel_size=(7,), stride=(1,), padding=(3,))
         )
       )
+      (ffn): Linear(in_features=6, out_features=3, bias=True)
+      (act): Sigmoid()
     )
     (SFFBlock4): SFFBlock(
+      (FB): FusionBlock(
+        (SA): SpatialAttention(
+          (CNN): Conv1d(2, 1, kernel_size=(7,), stride=(1,), padding=(3,))
+        )
+        (CA): ChannelAttention(
+          (MLP): Sequential(
+            (0): Linear(in_features=3, out_features=6, bias=True)
+            (1): Linear(in_features=6, out_features=3, bias=True)
+          )
+          (Sigmoid): Sigmoid()
+        )
+      )
       (SF): SpatialFlow(
         (up_conv1): Conv1d(3, 6, kernel_size=(7,), stride=(1,), padding=(3,))
         (up_conv2): Conv1d(6, 12, kernel_size=(7,), stride=(1,), padding=(3,))
@@ -139,14 +207,16 @@ USFFNet(
           (2): Conv1d(4, 3, kernel_size=(7,), stride=(1,), padding=(3,))
         )
       )
+      (ffn): Linear(in_features=6, out_features=3, bias=True)
+      (act): Sigmoid()
     )
   )
   (CNNI): Sequential(
     (0): Conv1d(3, 1, kernel_size=(3,), stride=(1,), padding=(1,))
   )
   (Uncertainty_Head): UncertaintyHead(
-    (MLP): Linear(in_features=150, out_features=600, bias=True)
-    (linear): Linear(in_features=600, out_features=600, bias=True)
+    (MLP): Linear(in_features=450, out_features=4, bias=True)
+    (linear): Linear(in_features=4, out_features=4, bias=True)
     (act): Sigmoid()
   )
   (embedding): DataEmbedding(
@@ -158,9 +228,10 @@ USFFNet(
   )
   (paifilter): PAIFILTER(
     (fc): Sequential(
-      (0): Linear(in_features=50, out_features=50, bias=True)
+      (0): Linear(in_features=150, out_features=50, bias=True)
       (1): LeakyReLU(negative_slope=0.01)
       (2): Linear(in_features=50, out_features=1, bias=True)
     )
+    (softmx): Softmax(dim=1)
   )
 )

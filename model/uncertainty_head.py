@@ -47,7 +47,7 @@ class UncertaintyHead(nn.Module):
         out = out.reshape(out.shape[0],self.stride,-1)
         # print(out.shape)
         gamma, nu, alpha, beta = torch.split(out, 1, dim=2)
-        nu, alpha, beta = fun.softplus(nu), fun.softplus(alpha), fun.softplus(beta)
+        nu, alpha, beta = fun.softplus(nu), fun.softplus(alpha)+1, fun.softplus(beta)
         return gamma, nu, alpha, beta
     
     def get_loss(self, y, gamma, nu, alpha, beta):

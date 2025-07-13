@@ -314,7 +314,7 @@ class USFFNet(nn.Module):
         self.paifilter = PAIFILTER(hidden_size=50,seq_len=window_size)
     
     def forward(self, x):
-        x = x.transpose(2,1)
+
         embeded_x = self.embedding(x)
         # print(feature.shape)
         # feature, _  = self.Adaptive_Spectral_Block(embeded_x)

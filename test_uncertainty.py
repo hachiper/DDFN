@@ -66,7 +66,6 @@ def Test(test_dataloder, model, path, data_type):
         alpha = alpha.squeeze(dim=-1).squeeze(dim=-1).detach().cpu().numpy().reshape(-1)
         beta = beta.squeeze(dim=-1).squeeze(dim=-1).detach().cpu().numpy().reshape(-1)
         gamma = gamma.squeeze(dim=-1).squeeze(dim=-1).detach().cpu().numpy().reshape(-1)
-        var = np.sqrt(beta / (alpha - 1))
         var = np.sqrt(np.abs(beta/((alpha - 1+ 1e-10))))
         upper_bound = gamma + 1.96*var
         lower_bound = gamma - 1.96*var
